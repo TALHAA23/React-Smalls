@@ -13,6 +13,7 @@
     "@react-oauth/google": "^0.11.1",
     "react": "^18.2.0",
     "react-bootstrap-range-slider": "^3.0.8",
+    "react-confetti": "^6.1.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.16.0",
     "uid": "^2.0.2"

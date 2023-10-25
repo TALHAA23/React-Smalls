@@ -4,9 +4,10 @@ import TimeProvider from "./today-only/hook/TimeProvider";
 import TS from "./ts-with-react/TS";
 import TicTacToe from "./tic-tac-toe/TicTactoe";
 import MatchMaking from "./tic-tac-toe/components/MatchMaking";
-import PlayGroundAttributesProvider from "./tic-tac-toe/hooks/PlayGroundAttributes";
+import PlayGroundAttributesProvider from "./tic-tac-toe/hooks/PlayGroundAttributesProvider";
 import PlayBoard from "./tic-tac-toe/components/PlayBoard";
 import TurnAndToggleProvier from "./tic-tac-toe/hooks/TurnAndToggleProvider";
+import WinnerProvider from "./tic-tac-toe/hooks/WinnerProvider";
 export const myModules = [
   { path: "movie-for-me", element: <MovieForMe /> },
   { path: "ts", element: <TS name="talha" /> },
@@ -39,7 +40,9 @@ export const myModules = [
             element: (
               <PlayGroundAttributesProvider>
                 <TurnAndToggleProvier>
-                  <PlayBoard />
+                  <WinnerProvider>
+                    <PlayBoard />
+                  </WinnerProvider>
                 </TurnAndToggleProvier>
               </PlayGroundAttributesProvider>
             ),

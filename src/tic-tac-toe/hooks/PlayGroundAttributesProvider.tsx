@@ -1,4 +1,3 @@
-import { esES } from "@mui/x-date-pickers";
 import { createContext, useContext, useState } from "react";
 
 interface PlayGroundAttributes {
@@ -9,7 +8,7 @@ interface PlayGroundAttributes {
 
 const playGroundDefaultAttributes: PlayGroundAttributes = {
   mode: "comp",
-  type: "normal",
+  type: "advance",
   grid: "3x3",
 };
 type AttributeContext = [

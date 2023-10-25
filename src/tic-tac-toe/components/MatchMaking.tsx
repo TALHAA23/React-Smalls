@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import {
   usePlaygroundAttributes,
   usePlaygroundAttributesHandler,
-} from "../hooks/PlayGroundAttributes";
+} from "../hooks/PlayGroundAttributesProvider";
 type MatchMakingOptionTupe = [string, string[]];
 export default function MatchMaking() {
   const matchMakingOptions: MatchMakingOptionTupe[] = [

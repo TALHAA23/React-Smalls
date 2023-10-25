@@ -1,47 +1,4 @@
-// const WINNING_COMBINATIONS = [
-//   [
-//     [0, 0],
-//     [0, 1],
-//     [0, 2],
-//   ], //top row
-//   [
-//     [1, 0],
-//     [1, 1],
-//     [1, 2],
-//   ], // middle row
-//   [
-//     [2, 0],
-//     [2, 1],
-//     [2, 2],
-//   ], // bottom row
-//   [
-//     [0, 0],
-//     [1, 0],
-//     [2, 0],
-//   ], // left column
-//   [
-//     [0, 1],
-//     [1, 1],
-//     [2, 1],
-//   ], // middle column
-//   [
-//     [0, 2],
-//     [1, 2],
-//     [2, 2],
-//   ], // right column
-//   [
-//     [0, 0],
-//     [1, 1],
-//     [2, 2],
-//   ], // main diagonal
-//   [
-//     [0, 2],
-//     [1, 1],
-//     [2, 0],
-//   ],
-// ];
-
-import { Board } from "./type";
+import { Board, Sign } from "./type";
 
 const createWinningCombinationAndWinnerChecker = function (
   numberOfCols: number
@@ -64,11 +21,11 @@ const createWinningCombinationAndWinnerChecker = function (
   WINNING_COMBINATIONS.push(mainDiagonal);
   WINNING_COMBINATIONS.push(secoundaryDiagonal);
 
-  return (board: Board) => {
+  return (board: Board): null | Sign => {
     for (let player of ["X", "O"]) {
       for (let combination of WINNING_COMBINATIONS) {
         if (combination.every(([i, j]) => board[i][j] === player)) {
-          return player;
+          return player as Sign;
         }
       }
     }

@@ -1,5 +1,5 @@
 import { createContext, useState, useContext } from "react";
-import { usePlaygroundAttributes } from "./PlayGroundAttributes";
+import { usePlaygroundAttributes } from "./PlayGroundAttributesProvider";
 import { Sign } from "../assets/type";
 interface Children {
   children: React.ReactNode;
