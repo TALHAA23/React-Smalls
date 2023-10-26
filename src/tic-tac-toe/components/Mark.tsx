@@ -2,18 +2,34 @@ import { useRef } from "react";
 import { Sign } from "../assets/type";
 interface MarkInterface {
   markedBy: Sign;
-  size: "sm" | "lg";
 }
+type Size = "md" | "lg";
+const SIZE = {
+  sm: "w-[50%]",
+  md: "w-[60%]",
+  lg: "w-[70%]",
+};
 export default function Mark(props: MarkInterface) {
   const markColor = getMarkColor(props.markedBy);
-  const markSize = props.size == "sm" ? "w-1/2" : "w-[80%]";
   return (
     <div
-      className={`medium-mark relative ${markSize} aspect-square rounded-full border-2 ${markColor}
-      before:invisible before:absolute before:-inset-2 before:aspect-square before:rounded-full before:border-2 before:border-yellow-500
-      after:invisible after:absolute after:-inset-4 after:aspect-square after:border-2 after:rounded-full after:border-pink-600
-      `}
-    ></div>
+      className={`medium-mark ${SIZE.sm} aspect-square rounded-full border-2 ${markColor}`}
+    >
+      {["md", "lg"].map((size) => (
+        <AdditionalBox size={size as Size} />
+      ))}
+    </div>
+  );
+}
+
+function AdditionalBox(props: { size: Size }) {
+  return (
+    <span
+      id={props.size}
+      className={`absolute ${
+        SIZE[props.size]
+      } invisible aspect-square rounded-full border-2 border-inherit top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2`}
+    ></span>
   );
 }
 

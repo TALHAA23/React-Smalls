@@ -1,7 +1,10 @@
 import { Sign, Board, WinnerAttributes } from "../assets/type";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { useGridValue } from "./TurnAndToggleProvider";
-import createWinningCombinationAndWinnerChecker from "../assets/checkWinner";
+import checkWinner from "../assets/checkWinner";
+import resetBoxes from "../assets/resetBoxes";
+import readURL from "../assets/readURL";
+import createBoard from "../assets/createBoard";
 
 type WinnerContextType = [
   Board | [],
@@ -20,6 +23,7 @@ const initRecord = {
   O: 0,
   draw: 0,
 };
+const initBoard = createBoard();
 
 const WinnerContext = createContext<WinnerContextType>([
   [],
@@ -34,13 +38,13 @@ export const useWinner = () => useContext(WinnerContext)[2];
 export const useRecord = () => useContext(WinnerContext)[3];
 export const useReset = () => useContext(WinnerContext)[4];
 export default function WinnerProvider(props: { children: React.ReactNode }) {
-  const grid = useGridValue();
-  const [board, setBoard] = useState<Board>(initBoard(grid));
+  const { grid } = readURL();
+  console.log(grid);
+  const [board, setBoard] = useState<Board>(initBoard);
   const [winner, setWinner] = useState<WinnerAttributes>(initWinnerAttributes);
   const [record, setRecord] = useState(initRecord);
   useEffect(() => {
-    const winnerChecker = createWinningCombinationAndWinnerChecker(grid);
-    const gotWinner = winnerChecker(board);
+    const gotWinner = checkWinner(board);
     if (gotWinner) {
       setWinner({
         isAnnounced: true,
@@ -52,7 +56,6 @@ export default function WinnerProvider(props: { children: React.ReactNode }) {
       }));
     }
   }, [board]);
-  console.log(board);
   function handleBoardChange(cords: string, sign: Sign) {
     const [x, y] = cords.split(",");
     setBoard((prevBoard) => {
@@ -68,9 +71,8 @@ export default function WinnerProvider(props: { children: React.ReactNode }) {
 
   function reset() {
     setWinner(initWinnerAttributes);
-    setBoard(initBoard(grid));
-    const boxes = document.querySelectorAll("div[data-reserve-count]");
-    boxes.forEach((item) => (item.dataset.reserveCount = "0"));
+    setBoard(initBoard);
+    resetBoxes();
   }
 
   return (
@@ -80,16 +82,4 @@ export default function WinnerProvider(props: { children: React.ReactNode }) {
       {props.children}
     </WinnerContext.Provider>
   );
-}
-
-function initBoard(grid: number): Board {
-  const board: Board = [];
-  for (let i = 1; i <= grid; i++) {
-    const gridRow = [];
-    for (let j = 1; j <= grid; j++) {
-      gridRow.push(null);
-    }
-    board.push(gridRow);
-  }
-  return board;
 }

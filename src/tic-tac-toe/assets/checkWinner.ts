@@ -1,19 +1,19 @@
+import readURL from "./readURL";
 import { Board, Sign } from "./type";
 
-const createWinningCombinationAndWinnerChecker = function (
-  numberOfCols: number
-) {
+const createWinningCombinationAndWinnerChecker = function () {
+  const { grid } = readURL();
   const WINNING_COMBINATIONS: number[][][] = [];
   const mainDiagonal = [];
   const secoundaryDiagonal = [];
-  for (let i = 0; i < numberOfCols; i++) {
+  for (let i = 0; i < grid; i++) {
     const row = [];
     const col = [];
-    for (let j = 0; j < numberOfCols; j++) {
+    for (let j = 0; j < grid; j++) {
       col.push([j, i]);
       row.push([i, j]);
       if (i == j) mainDiagonal.push([i, j]);
-      if (j == numberOfCols - 1) secoundaryDiagonal.push([i, j - i]);
+      if (j == grid - 1) secoundaryDiagonal.push([i, j - i]);
     }
     WINNING_COMBINATIONS.push(row);
     WINNING_COMBINATIONS.push(col);
@@ -33,4 +33,5 @@ const createWinningCombinationAndWinnerChecker = function (
   };
 };
 
-export default createWinningCombinationAndWinnerChecker;
+const checkWinner = createWinningCombinationAndWinnerChecker();
+export default checkWinner;

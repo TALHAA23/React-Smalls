@@ -1,20 +1,30 @@
 import ReactConfetti from "react-confetti";
-import { useRecord, useReset } from "../hooks/WinnerProvider";
+import { useRecord, useReset, useWinner } from "../hooks/WinnerProvider";
+import { PLAYER1, PLAYER2 } from "../hooks/TurnAndToggleProvider";
 export default function Confetti() {
+  const { winner } = useWinner();
   const reset = useReset();
   const record = Object.entries(useRecord());
+  console.log(record);
   return (
     <section className=" absolute w-full h-screen bg-black/20 flex items-center justify-center">
-      <ReactConfetti numberOfPieces={50} />
+      <ReactConfetti numberOfPieces={winner == PLAYER1.sign ? 100 : 50} />
       <div className="w-[90%] bg-black/90  py-12 rounded text-white text-center ">
-        <h1 className=" text-5xl">Player 1</h1>
-        <small>+10 Coins</small>
+        <h1 className=" text-5xl">
+          {winner == PLAYER1.sign ? PLAYER1.title : PLAYER2.title}
+        </h1>
+        <small>+{winner == PLAYER1.sign ? "10" : "0"} coins</small>
         <div className="grid grid-cols-2">
           {record.map(([title, value]) => (
-            // <div className="flex justify-around border-y border-gray-400">
             <>
-              <p>{title == "X" ? "Player 01" : "Player 02"}</p>
-              <p>{value}</p>
+              <p>
+                {title == "draw"
+                  ? "Draw"
+                  : title == PLAYER1.sign
+                  ? PLAYER1.title
+                  : PLAYER2.title}
+              </p>
+              <p>{value as number}</p>
             </>
             // </div>
           ))}

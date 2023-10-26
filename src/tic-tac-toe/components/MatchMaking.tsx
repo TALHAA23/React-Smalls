@@ -2,15 +2,17 @@ import { Link } from "react-router-dom";
 import {
   usePlaygroundAttributes,
   usePlaygroundAttributesHandler,
+  useQueryParams,
 } from "../hooks/PlayGroundAttributesProvider";
-type MatchMakingOptionTupe = [string, string[]];
+type MatchMakingOptionTuple = [string, string[]];
 export default function MatchMaking() {
-  const matchMakingOptions: MatchMakingOptionTupe[] = [
+  const matchMakingOptions: MatchMakingOptionTuple[] = [
     ["mode", ["2p", "comp"]],
     ["grid", ["3x3", "4x4", "5x5"]],
     ["type", ["normal", "advance"]],
   ];
   const attributes = usePlaygroundAttributes();
+  const queryParams = useQueryParams();
   const changeHandler = usePlaygroundAttributesHandler();
   const formHtmlEl = matchMakingOptions.map(([title, catagories]) => (
     <div className="flex">
@@ -39,11 +41,14 @@ export default function MatchMaking() {
     </div>
   ));
   return (
-    <section className="w-full h-screen flex items-center justify-center">
+    <section className="w-full h-screen flex items-center justify-center font-[playPretend]">
       <form className=" w-[90%] max-w-[600px] border border-black ">
         <h1 className=" text-center">Match Making</h1>
         {formHtmlEl}
-        <Link to="play" className="block  text-center border border-black">
+        <Link
+          to={`play?${queryParams}`}
+          className="block  text-center border border-black"
+        >
           Start
         </Link>
       </form>

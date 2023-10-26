@@ -13,17 +13,20 @@ import WinnerProvider, {
 } from "../hooks/WinnerProvider";
 import { usePlaygroundAttributes } from "../hooks/PlayGroundAttributesProvider";
 import Confetti from "./Confetti";
+import readURL from "../assets/readURL";
 
 export default function PlayBoard() {
   const winnerAttributes = useWinner();
   const use = useBoard();
   const turn = useTurn();
-  const NUMBER_OF_COL = useGridValue();
+  const { grid } = readURL();
   const renderBoxes = [];
 
-  for (let i = 0; i < NUMBER_OF_COL; i++)
-    for (let j = 0; j < NUMBER_OF_COL; j++)
+  for (let i = 0; i < grid; i++)
+    for (let j = 0; j < grid; j++)
       renderBoxes.push(<Box cords={`${i},${j}`} />);
+
+  console.log(grid);
   return (
     <section className="relative w-full h-screen flex items-center justify-center font-[playPretend]">
       <div className="w-[90%] aspect-square max-w-[500px]">
@@ -31,12 +34,14 @@ export default function PlayBoard() {
           {turn.title}:{turn.sign}
         </h1>
         <div
-          className={`w-full h-full pointe p-1 border border-black grid grid-cols-${NUMBER_OF_COL} gap-1`}
+          className={`w-full h-full pointe p-1 border border-black grid gap-1`}
+          style={{ gridTemplateColumns: `repeat(${grid},1fr)` }}
         >
           {renderBoxes}
         </div>
       </div>
       {winnerAttributes.isAnnounced && <Confetti />}
+      {/* <Confetti /> */}
     </section>
   );
 }
@@ -47,7 +52,7 @@ interface BoxProps {
 
 function Box(props: BoxProps) {
   const boxReverseCount = useRef(0);
-  const gameType = usePlaygroundAttributes().type;
+  const { type } = readURL();
   const [x, y] = props.cords.split(",");
   const turn = useTurn();
   const toogleTurn = useToggleTurn();
@@ -57,17 +62,19 @@ function Box(props: BoxProps) {
 
   function markCurrentBox(event: MouseEvent) {
     const target = event.currentTarget as HTMLElement;
-    let movesCount = parseInt(target.dataset.reserveCount);
+    let movesCount = parseInt(target.dataset.reserveCount || "0");
     toogleTurn();
     boardChangeHandler(target.id, turn.sign);
 
-    if (gameType == "advance") {
+    if (type == "advance") {
       movesCount++;
       target.dataset.reserveCount = movesCount.toString();
       switch (movesCount) {
-        case 1:
+        case 2:
+          target.querySelector("#md")?.classList.remove("invisible");
           break;
         case 3:
+          target.querySelector("#lg")?.classList.remove("invisible");
           target.classList.add("pointer-events-none");
       }
     } else {
@@ -80,9 +87,9 @@ function Box(props: BoxProps) {
       onClick={(e) => markCurrentBox(e)}
       id={props.cords}
       data-reserve-count={boxReverseCount.current}
-      className="border border-green-500 flex items-center justify-center"
+      className="relative border border-green-500 flex items-center justify-center"
     >
-      <Mark markedBy={currentCord} size="sm" />
+      <Mark markedBy={currentCord} />
     </div>
   );
 }
