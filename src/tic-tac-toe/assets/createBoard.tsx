@@ -2,6 +2,7 @@ import { Board } from "./type";
 import readURL from "./readURL";
 export default function createBoard(): Board {
   const { grid } = readURL();
+  console.log(grid);
   const board: Board = [];
   for (let i = 1; i <= grid; i++) {
     const gridRow = [];

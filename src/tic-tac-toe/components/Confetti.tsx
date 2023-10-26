@@ -9,7 +9,7 @@ export default function Confetti() {
   return (
     <section className=" absolute w-full h-screen bg-black/20 flex items-center justify-center">
       <ReactConfetti numberOfPieces={winner == PLAYER1.sign ? 100 : 50} />
-      <div className="w-[90%] bg-black/90  py-12 rounded text-white text-center ">
+      <div className="w-[90%] max-w-[900px] bg-black/90  py-12 rounded text-white text-center ">
         <h1 className=" text-5xl">
           {winner == PLAYER1.sign ? PLAYER1.title : PLAYER2.title}
         </h1>

@@ -1,5 +1,5 @@
 import { Sign, Board, WinnerAttributes } from "../assets/type";
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useGridValue } from "./TurnAndToggleProvider";
 import checkWinner from "../assets/checkWinner";
 import resetBoxes from "../assets/resetBoxes";
@@ -38,9 +38,8 @@ export const useWinner = () => useContext(WinnerContext)[2];
 export const useRecord = () => useContext(WinnerContext)[3];
 export const useReset = () => useContext(WinnerContext)[4];
 export default function WinnerProvider(props: { children: React.ReactNode }) {
-  const { grid } = readURL();
-  console.log(grid);
-  const [board, setBoard] = useState<Board>(initBoard);
+  // const { grid } = readURL();
+  const [board, setBoard] = useState<Board>(createBoard());
   const [winner, setWinner] = useState<WinnerAttributes>(initWinnerAttributes);
   const [record, setRecord] = useState(initRecord);
   useEffect(() => {

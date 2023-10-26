@@ -11,51 +11,57 @@ const playGroundDefaultAttributes: PlayGroundAttributes = {
   type: "normal",
   grid: "3x3",
 };
+const DEFAULT_SEARCHPARAMS = "mode=comp&type=normal&grid=3x3";
 type AttributeContext = [
-  attributes: PlayGroundAttributes,
-  stateHandler: (event: React.ChangeEvent<HTMLInputElement>) => void,
-  searchParams: string
+  // attributes: PlayGroundAttributes,
+  searchParams: string,
+  stateHandler: (event: React.ChangeEvent<HTMLInputElement>) => void
 ];
 const PlayGroundAttributesContext = createContext<AttributeContext>([
-  playGroundDefaultAttributes,
+  // playGroundDefaultAttributes,
+  "",
   () => {},
-  "string",
 ]);
-export const usePlaygroundAttributes = () =>
-  useContext(PlayGroundAttributesContext)[0];
+// export const usePlaygroundAttributes = () =>
+//   useContext(PlayGroundAttributesContext)[0];
+export const useQueryParams = () => useContext(PlayGroundAttributesContext)[0];
 export const usePlaygroundAttributesHandler = () =>
   useContext(PlayGroundAttributesContext)[1];
-export const useQueryParams = () => useContext(PlayGroundAttributesContext)[2];
 interface Children {
   children: React.ReactNode;
 }
 export default function PlayGroundAttributesProvider(props: Children) {
-  const [playgroundAttributes, setPlaygroundAttributes] =
-    useState<PlayGroundAttributes>(playGroundDefaultAttributes);
-  const [queryParams, setQueryParams] = useState("");
-
+  // const [playgroundAttributes, setPlaygroundAttributes] =
+  //   useState<PlayGroundAttributes>(playGroundDefaultAttributes);
+  const [queryParams, setQueryParams] = useState(DEFAULT_SEARCHPARAMS);
   function handleAttributeChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
-    setPlaygroundAttributes((prevValue) => ({
-      ...prevValue,
-      [name]: value,
-    }));
+    // setPlaygroundAttributes((prevValue) => ({
+    //   ...prevValue,
+    //   [name]: value,
+    // }));
+    if (!name.match(/\b(?:mode|type|grid)\b/gi))
+      throw new Error("Invalid Search Param Provided");
+    const currentURL = new URLSearchParams(queryParams);
+    currentURL.set(name, value);
+    setQueryParams(currentURL.toString());
   }
 
-  useEffect(() => {
-    const url = Object.entries(playgroundAttributes).toString();
-    const matches = url.split(",");
-    let result: any = matches.map((item, index) =>
-      index % 2 === 0 ? item.concat("=") : item.concat("&")
-    );
-    result = result.toString().replace(/,/g, "").slice(0, -1);
-    console.log(result);
-    setQueryParams(result);
-  }, [playgroundAttributes]);
+  // useEffect(() => {
+  //   console.log("RINNED");
+  //   const url = Object.entries(playgroundAttributes).toString();
+  //   const matches = url.split(",");
+  //   let result: any = matches.map((item, index) =>
+  //     index % 2 === 0 ? item.concat("=") : item.concat("&")
+  //   );
+  //   result = result.toString().replace(/,/g, "").slice(0, -1);
+  //   console.log(result);
+  //   setQueryParams(result);
+  // }, [playgroundAttributes]);
 
   return (
     <PlayGroundAttributesContext.Provider
-      value={[playgroundAttributes, handleAttributeChange, queryParams]}
+      value={[queryParams, handleAttributeChange]}
     >
       {props.children}
     </PlayGroundAttributesContext.Provider>

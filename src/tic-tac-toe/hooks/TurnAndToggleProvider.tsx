@@ -1,5 +1,5 @@
 import { createContext, useState, useContext } from "react";
-import { usePlaygroundAttributes } from "./PlayGroundAttributesProvider";
+// import { usePlaygroundAttributes } from "./PlayGroundAttributesProvider";
 import { Sign } from "../assets/type";
 import readURL from "../assets/readURL";
 interface Children {
@@ -23,25 +23,25 @@ export const PLAYER2: PlayerAttributes = {
 
 type TurnAndToogle = [
   turn: PlayerAttributes,
-  grid: number,
+  // grid: number,
   toggle: () => void
   // { player1: PlayerAttributes; player2: PlayerAttributes } | {}
 ];
 
 const TurnAndToggleContext = createContext<TurnAndToogle>([
   { title: "Player 01", sign: PLAYER_1_SIGN },
-  0,
+  // 0,
   () => {},
   // {},
 ]);
 export const useTurn = () => useContext(TurnAndToggleContext)[0];
-export const useGridValue = () => useContext(TurnAndToggleContext)[1];
-export const useToggleTurn = () => useContext(TurnAndToggleContext)[2];
+// export const useGridValue = () => useContext(TurnAndToggleContext)[1];
+export const useToggleTurn = () => useContext(TurnAndToggleContext)[1];
 // export const usePlayerAttributes = () => useContext(TurnAndToggleContext)[3];
 
 export default function TurnAndToggleProvier(props: Children) {
-  const attributes = usePlaygroundAttributes();
-  const grid = parseInt(attributes.grid);
+  // const attributes = usePlaygroundAttributes();
+  // const grid = parseInt(attributes.grid);
 
   const [turn, setTurn] = useState(PLAYER1);
   const toggleTurn = () =>
@@ -50,7 +50,7 @@ export default function TurnAndToggleProvier(props: Children) {
       sign: prevTurn.sign == PLAYER_1_SIGN ? PLAYER_2_SIGN : PLAYER_1_SIGN,
     }));
   return (
-    <TurnAndToggleContext.Provider value={[turn, grid, toggleTurn]}>
+    <TurnAndToggleContext.Provider value={[turn, toggleTurn]}>
       {props.children}
     </TurnAndToggleContext.Provider>
   );

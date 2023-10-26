@@ -1,7 +1,7 @@
 import { Sign } from "../assets/type";
 import Mark from "./Mark";
 import {
-  useGridValue,
+  // useGridValue,
   useToggleTurn,
   useTurn,
 } from "../hooks/TurnAndToggleProvider";
@@ -11,7 +11,7 @@ import WinnerProvider, {
   useBoardChangeHandler,
   useWinner,
 } from "../hooks/WinnerProvider";
-import { usePlaygroundAttributes } from "../hooks/PlayGroundAttributesProvider";
+// import { usePlaygroundAttributes } from "../hooks/PlayGroundAttributesProvider";
 import Confetti from "./Confetti";
 import readURL from "../assets/readURL";
 
@@ -24,9 +24,8 @@ export default function PlayBoard() {
 
   for (let i = 0; i < grid; i++)
     for (let j = 0; j < grid; j++)
-      renderBoxes.push(<Box cords={`${i},${j}`} />);
+      renderBoxes.push(<Box key={`${i},${j}`} cords={`${i},${j}`} />);
 
-  console.log(grid);
   return (
     <section className="relative w-full h-screen flex items-center justify-center font-[playPretend]">
       <div className="w-[90%] aspect-square max-w-[500px]">
