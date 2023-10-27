@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import {
-  // usePlaygroundAttributes,
   usePlaygroundAttributesHandler,
   useQueryParams,
 } from "../hooks/PlayGroundAttributesProvider";
@@ -11,7 +10,6 @@ export default function MatchMaking() {
     ["grid", ["3x3", "4x4", "5x5"]],
     ["type", ["normal", "advance"]],
   ];
-  // const attributes = usePlaygroundAttributes();
   const queryParams = useQueryParams();
   const changeHandler = usePlaygroundAttributesHandler();
   const formHtmlEl = matchMakingOptions.map(([title, catagories]) => (
@@ -29,7 +27,6 @@ export default function MatchMaking() {
                 value={catagory}
                 name={title}
                 hidden
-                // checked={catagory == attributes[title]}
                 checked={queryParams.includes(catagory)}
               />
               <p className="relative peer-checked:text-red-600 border border-purple-500">

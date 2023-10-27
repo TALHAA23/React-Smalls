@@ -1,10 +1,12 @@
 import { Sign, Board, WinnerAttributes } from "../assets/type";
 import { createContext, useContext, useEffect, useState } from "react";
-import { useGridValue } from "./TurnAndToggleProvider";
 import checkWinner from "../assets/checkWinner";
 import resetBoxes from "../assets/resetBoxes";
-import readURL from "../assets/readURL";
 import createBoard from "../assets/createBoard";
+import { useToggleTurn, useTurn } from "./TurnAndToggleProvider";
+import autoMove from "../assets/autoMove";
+import readURL from "../assets/readURL";
+import updateUIforCurrentMove from "../assets/updateUIforCurrentMove";
 
 type WinnerContextType = [
   Board | [],
@@ -38,7 +40,6 @@ export const useWinner = () => useContext(WinnerContext)[2];
 export const useRecord = () => useContext(WinnerContext)[3];
 export const useReset = () => useContext(WinnerContext)[4];
 export default function WinnerProvider(props: { children: React.ReactNode }) {
-  // const { grid } = readURL();
   const [board, setBoard] = useState<Board>(createBoard());
   const [winner, setWinner] = useState<WinnerAttributes>(initWinnerAttributes);
   const [record, setRecord] = useState(initRecord);
@@ -55,6 +56,30 @@ export default function WinnerProvider(props: { children: React.ReactNode }) {
       }));
     }
   }, [board]);
+  const turn = useTurn();
+  const toggleturn = useToggleTurn();
+
+  useEffect(() => {
+    const { type } = readURL();
+    if (turn.title == "Computer") {
+      let [x, y] = autoMove();
+      const reserveCountIfAdvance = parseInt(
+        document.getElementById(`${x},${y}`)?.dataset.reserveCount || "0"
+      );
+
+      console.log(type, reserveCountIfAdvance);
+      if (!(type == "advance" && reserveCountIfAdvance < 3))
+        while (board[x][y] != null) [x, y] = autoMove();
+
+      setTimeout(() => {
+        const target = document.getElementById(`${x},${y}`);
+        handleBoardChange([x, y].toString(), turn.sign);
+        toggleturn();
+        updateUIforCurrentMove(target);
+      }, 1000);
+    }
+  }, [board]);
+
   function handleBoardChange(cords: string, sign: Sign) {
     const [x, y] = cords.split(",");
     setBoard((prevBoard) => {
