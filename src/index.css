@@ -49,6 +49,22 @@ body {
 
 /* tic-tac-toe */
 
+.moveable-heading {
+    @apply bg-gradient-to-r text-transparent bg-clip-text from-10% to-90% from-white to-white/25;
+    animation: animatedHeading 2s cubic-bezier(0.49, 0.02, 0.29, 0.96) forwards;
+}
+
+@keyframes animatedHeading {
+
+    from {
+        @apply tracking-tighter
+    }
+
+    to {
+        @apply tracking-[10px]
+    }
+}
+
 input::-webkit-outer-spin-button,
 
 input::-webkit-inner-spin-button {

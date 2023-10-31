@@ -8,6 +8,8 @@ import PlayGroundAttributesProvider from "./tic-tac-toe/hooks/PlayGroundAttribut
 import PlayBoard from "./tic-tac-toe/components/PlayBoard";
 import TurnAndToggleProvier from "./tic-tac-toe/hooks/TurnAndToggleProvider";
 import WinnerProvider from "./tic-tac-toe/hooks/WinnerProvider";
+import ThemeProvider from "./tic-tac-toe/hooks/ThemeProvider";
+import Shop from "./tic-tac-toe/components/Shop";
 export const myModules = [
   { path: "movie-for-me", element: <MovieForMe /> },
   { path: "ts", element: <TS name="talha" /> },
@@ -22,7 +24,14 @@ export const myModules = [
   {
     path: "tic-tac-toe",
     children: [
-      { index: true, element: <TicTacToe /> },
+      {
+        index: true,
+        element: (
+          <ThemeProvider>
+            <TicTacToe />
+          </ThemeProvider>
+        ),
+      },
       {
         path: "matchmaking",
 
@@ -48,6 +57,10 @@ export const myModules = [
             ),
           },
         ],
+      },
+      {
+        path: "shop",
+        element: <Shop />,
       },
     ],
   },

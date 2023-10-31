@@ -1,5 +1,5 @@
-import { useRef } from "react";
 import { Sign } from "../assets/type";
+import { useMarkerTheme } from "../hooks/ThemeProvider";
 interface MarkInterface {
   markedBy: Sign;
 }
@@ -12,13 +12,14 @@ const SIZE = {
 export default function Mark(props: MarkInterface) {
   const markColor = getMarkColor(props.markedBy);
   return (
-    <div
-      className={`medium-mark ${SIZE.sm} aspect-square rounded-full border-2 ${markColor}`}
-    >
-      {["md", "lg"].map((size) => (
-        <AdditionalBox size={size as Size} />
-      ))}
-    </div>
+    <div className={`w-full relative ${markColor}`}>{useMarkerTheme()}</div>
+    // <div
+    //   className={`medium-mark ${SIZE.sm} aspect-square rounded-full border-2 ${markColor}`}
+    // >
+    //   {["md", "lg"].map((size) => (
+    //     <AdditionalBox size={size as Size} />
+    //   ))}
+    // </div>
   );
 }
 

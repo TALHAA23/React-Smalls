@@ -1,0 +1,39 @@
+.neon-glow-fire {
+  @apply border-4  relative 
+  before:absolute before:-inset-2;
+  box-shadow: 1px 1px 4px 5px rgba(187, 102, 6, 0.789);
+}
+
+.neon-glow-fire::before {
+  animation: glow-fire 2s linear infinite alternate;
+}
+
+@keyframes glow-fire {
+  from {
+    box-shadow: 1px 1px 6px 6px rgba(234, 220, 19, 0.635);
+  }
+  to {
+    box-shadow: 1px 1px 10px 12px rgba(246, 231, 64, 0.635);
+  }
+}
+
+.neon-glow-nature {
+  @apply border-4  relative 
+  before:absolute before:-inset-2;
+  box-shadow: 1px 1px 4px 5px rgba(58, 237, 58, 0.789);
+}
+
+.neon-glow-nature::before {
+  animation: glow-nature 2s linear infinite alternate;
+}
+
+@keyframes glow-nature {
+  from {
+    box-shadow: 1px 1px 6px 6px rgba(18, 187, 83, 0.635);
+  }
+  to {
+    box-shadow: 1px 1px 10px 12px rgba(8, 159, 43, 0.635);
+  }
+}
+
+/*  */

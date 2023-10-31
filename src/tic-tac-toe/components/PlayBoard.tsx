@@ -9,10 +9,11 @@ import {
 } from "../hooks/WinnerProvider";
 import Confetti from "./Confetti";
 import readURL from "../assets/readURL";
-import autoMove from "../assets/autoMove";
 import updateUIforCurrentMove from "../assets/updateUIforCurrentMove";
+import { useBoardTheme } from "../hooks/ThemeProvider";
 
 export default function PlayBoard() {
+  console.log(useBoardTheme());
   const winnerAttributes = useWinner();
   const turn = useTurn();
   const { grid } = readURL();
@@ -32,14 +33,13 @@ export default function PlayBoard() {
           {turn.title}:{turn.sign}
         </h1>
         <div
-          className={`w-full h-full pointe p-1 border border-black grid gap-1`}
+          className={`w-full h-full p-1 grid gap-1 ${useBoardTheme()}`}
           style={{ gridTemplateColumns: `repeat(${grid},1fr)` }}
         >
           {renderBoxes}
         </div>
       </div>
       {winnerAttributes.isAnnounced && <Confetti />}
-      {/* <Confetti /> */}
     </section>
   );
 }
