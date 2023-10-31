@@ -11,6 +11,7 @@ const SIZE = {
 };
 export default function Mark(props: MarkInterface) {
   const markColor = getMarkColor(props.markedBy);
+  console.log(useMarkerTheme());
   return (
     <div className={`w-full relative ${markColor}`}>{useMarkerTheme()}</div>
     // <div

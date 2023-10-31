@@ -13,19 +13,19 @@ type Value = string | ReactElement;
 interface Theme {
   themeChanger: (key: Key, value: Value) => void;
   board: string;
-  markers: ReactElement[];
+  marker: ReactElement[];
 }
 
 const DEFAULT_THEME: Theme = {
   themeChanger: () => {},
   board: "border-4 border-black",
-  markers: [...Circle()],
+  marker: [...Circle()],
 };
 
 const ThemeContext = createContext<Theme>(DEFAULT_THEME);
 export const useThemeChanger = () => useContext(ThemeContext).themeChanger;
 export const useBoardTheme = () => useContext(ThemeContext).board;
-export const useMarkerTheme = () => useContext(ThemeContext).markers;
+export const useMarkerTheme = () => useContext(ThemeContext).marker;
 export default function ThemeProvider(props: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>({
     ...DEFAULT_THEME,
@@ -34,7 +34,6 @@ export default function ThemeProvider(props: { children: ReactNode }) {
   console.log(theme);
 
   function changeCurrentTheme(key: Key, value: Value) {
-    console.log(key, value);
     setTheme((prevTheme) => ({
       ...prevTheme,
       [key]: value,

@@ -1,7 +1,7 @@
 import ShopShowcase from "./ShopShowcase";
 import boards from "../shop/boards";
 import markers from "../shop/markers";
-import { useThemeChanger } from "../hooks/ThemeProvider";
+import { useBoardTheme, useThemeChanger } from "../hooks/ThemeProvider";
 
 const ALL = [...boards, ...markers];
 

@@ -10,10 +10,10 @@ import {
 import Confetti from "./Confetti";
 import readURL from "../assets/readURL";
 import updateUIforCurrentMove from "../assets/updateUIforCurrentMove";
-import { useBoardTheme } from "../hooks/ThemeProvider";
+import { useBoardTheme, useThemeChanger } from "../hooks/ThemeProvider";
 
 export default function PlayBoard() {
-  console.log(useBoardTheme());
+  console.log(useThemeChanger());
   const winnerAttributes = useWinner();
   const turn = useTurn();
   const { grid } = readURL();
