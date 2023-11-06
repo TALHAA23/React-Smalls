@@ -4,7 +4,7 @@ export default function resetBoxes() {
     item.dataset.reserveCount = "0";
     item.classList.remove("pointer-events-none");
     item
-      .querySelectorAll("span")
+      .querySelectorAll("#md, #lg")
       .forEach((additionBox) => additionBox.classList.add("invisible"));
   });
 }

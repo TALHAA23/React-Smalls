@@ -1,9 +1,15 @@
-export default function ShopShowcase() {
+export default function ShopShowcase(props) {
+  console.log(props.resourse);
   const showcaseBox = Array(9).fill(
-    <div className="shadow-lg border border-transparent hover:border-black/30"></div>
+    <div className="relative shadow-lg border border-rose-500 hover:border-black/30">
+      {props.catagory == "marker" && props.resourse[0]}
+    </div>
   );
   return (
-    <div className="absolute bottom-2 right-2 p-2 w-[150px] sm:w-[250px] aspect-square border-dotted border-[7px] border-black grid grid-cols-3 grid-rows-3">
+    <div
+      className={`  fixed z-50 right-2 bottom-2 p-2 w-[150px] sm:w-[250px] aspect-square bg-white/20 border-4 border-black shadow-2xl shadow-slate-500 grid grid-cols-3 grid-rows-3 hover:bg-white/50 
+   ${props.catagory == "board" ? props.resourse : ""}`}
+    >
       {showcaseBox}
     </div>
   );

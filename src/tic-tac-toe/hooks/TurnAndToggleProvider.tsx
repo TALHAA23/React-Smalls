@@ -1,6 +1,7 @@
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
 import { Sign } from "../assets/type";
 import readURL from "../assets/readURL";
+import { useSearchParams } from "react-router-dom";
 interface Children {
   children: React.ReactNode;
 }
@@ -29,6 +30,8 @@ const TurnAndToggleContext = createContext<TurnAndToogle>([
 export const useTurn = () => useContext(TurnAndToggleContext)[0];
 export const useToggleTurn = () => useContext(TurnAndToggleContext)[1];
 export default function TurnAndToggleProvier(props: Children) {
+  const [p, setp] = useSearchParams();
+  useEffect(() => (PLAYER2.title = "Player 01"), [p]);
   const [turn, setTurn] = useState(PLAYER1);
   const toggleTurn = () =>
     setTurn((prevTurn) => ({

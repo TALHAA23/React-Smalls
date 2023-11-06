@@ -21,7 +21,9 @@ const createWinningCombinationAndWinnerChecker = function () {
   WINNING_COMBINATIONS.push(mainDiagonal);
   WINNING_COMBINATIONS.push(secoundaryDiagonal);
 
-  return (board: Board): null | Sign => {
+  return (board: Board): null | (Sign | "draw") => {
+    if (!board) return null;
+    if (board.every((set) => set.every((cord) => cord != null))) return "draw";
     for (let player of ["X", "O"]) {
       for (let combination of WINNING_COMBINATIONS) {
         if (combination.every(([i, j]) => board[i][j] === player)) {
@@ -32,6 +34,6 @@ const createWinningCombinationAndWinnerChecker = function () {
     return null;
   };
 };
-
-const checkWinner = createWinningCombinationAndWinnerChecker();
-export default checkWinner;
+export default createWinningCombinationAndWinnerChecker;
+// const checkWinner = createWinningCombinationAndWinnerChecker();
+// export default checkWinner;

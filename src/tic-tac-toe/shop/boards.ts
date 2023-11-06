@@ -1,4 +1,5 @@
-const boards = [
+import { ProductAttributes } from "../assets/type";
+const boards: ProductAttributes[] = [
   {
     title: "neon fire",
     resource: "neon-glow-fire",

@@ -12,6 +12,7 @@ export default function updateUIforCurrentMove(target: HTMLElement | null) {
         target.querySelector("#md")?.classList.remove("invisible");
         break;
       case 3:
+        target.classList.add("opacity-80");
         target.querySelector("#lg")?.classList.remove("invisible");
         target.classList.add("pointer-events-none");
     }

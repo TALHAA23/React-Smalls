@@ -1,23 +1,22 @@
 import { Sign } from "../assets/type";
 import Mark from "./Mark";
 import { useToggleTurn, useTurn } from "../hooks/TurnAndToggleProvider";
-import { MouseEvent, useRef } from "react";
+import { MouseEvent, ReactElement, useRef } from "react";
 import {
   useBoard,
   useBoardChangeHandler,
   useWinner,
 } from "../hooks/WinnerProvider";
-import Confetti from "./Confetti";
+import Result from "./Result";
 import readURL from "../assets/readURL";
 import updateUIforCurrentMove from "../assets/updateUIforCurrentMove";
-import { useBoardTheme, useThemeChanger } from "../hooks/ThemeProvider";
+import { useBoardTheme } from "../hooks/ThemeProvider";
 
 export default function PlayBoard() {
-  console.log(useThemeChanger());
   const winnerAttributes = useWinner();
   const turn = useTurn();
   const { grid } = readURL();
-  const renderBoxes = [];
+  const renderBoxes: ReactElement[] = [];
   for (let i = 0; i < grid; i++)
     for (let j = 0; j < grid; j++)
       renderBoxes.push(<Box key={`${i},${j}`} cords={`${i},${j}`} />);
@@ -39,7 +38,7 @@ export default function PlayBoard() {
           {renderBoxes}
         </div>
       </div>
-      {winnerAttributes.isAnnounced && <Confetti />}
+      {winnerAttributes.isAnnounced && <Result />}
     </section>
   );
 }
@@ -49,11 +48,11 @@ interface BoxProps {
 }
 
 function Box(props: BoxProps) {
+  const board = useBoard();
   const boxReverseCount = useRef(0);
   const [x, y] = props.cords.split(",");
   const turn = useTurn();
   const toogleTurn = useToggleTurn();
-  const board = useBoard();
   const boardChangeHandler = useBoardChangeHandler();
   const currentCord: Sign = board[x][y];
 
@@ -69,7 +68,7 @@ function Box(props: BoxProps) {
       onClick={(e) => markCurrentBox(e)}
       id={props.cords}
       data-reserve-count={boxReverseCount.current}
-      className="relative border border-green-500 flex items-center justify-center"
+      className="relative rounded border border-slate-600/30 flex items-center justify-center"
     >
       <Mark markedBy={currentCord} />
     </div>

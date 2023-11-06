@@ -3,12 +3,15 @@ import {
   ReactNode,
   createContext,
   useContext,
+  useEffect,
   useState,
 } from "react";
 import Circle from "../shop/Marker/Circle";
+import { Catagory } from "../assets/type";
+import myTheme from "../assets/myTheme";
 
-type Key = "board" | "marker";
-type Value = string | ReactElement;
+type Key = Catagory;
+type Value = string | ReactElement[];
 
 interface Theme {
   themeChanger: (key: Key, value: Value) => void;
@@ -16,7 +19,8 @@ interface Theme {
   marker: ReactElement[];
 }
 
-const DEFAULT_THEME: Theme = {
+let DEFAULT_THEME: Theme;
+DEFAULT_THEME = myTheme() || {
   themeChanger: () => {},
   board: "border-4 border-black",
   marker: [...Circle()],
@@ -31,7 +35,11 @@ export default function ThemeProvider(props: { children: ReactNode }) {
     ...DEFAULT_THEME,
     themeChanger: changeCurrentTheme,
   });
-  console.log(theme);
+
+  useEffect(
+    () => localStorage.setItem("theme", JSON.stringify(theme)),
+    [theme]
+  );
 
   function changeCurrentTheme(key: Key, value: Value) {
     setTheme((prevTheme) => ({

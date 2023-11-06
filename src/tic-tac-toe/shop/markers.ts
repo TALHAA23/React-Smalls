@@ -1,7 +1,9 @@
+import { ProductAttributes } from "../assets/type";
 import Square from "./Marker/Square";
 import Circle from "./Marker/Circle";
+import EmojiSmile from "./Marker/Emoji-smile";
 
-const markers = [
+const markers: ProductAttributes[] = [
   {
     title: "square",
     resource: [...Square()],
@@ -12,6 +14,13 @@ const markers = [
   {
     title: "circle",
     resource: [...Circle()],
+    price: 20,
+    isPurchased: false,
+    catagory: "marker",
+  },
+  {
+    title: "smily me",
+    resource: [...EmojiSmile()],
     price: 20,
     isPurchased: false,
     catagory: "marker",

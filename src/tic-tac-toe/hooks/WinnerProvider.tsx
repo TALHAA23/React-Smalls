@@ -1,6 +1,6 @@
 import { Sign, Board, WinnerAttributes } from "../assets/type";
-import { createContext, useContext, useEffect, useState } from "react";
-import checkWinner from "../assets/checkWinner";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
+import createWinningCombinationAndWinnerChecker from "../assets/checkWinner";
 import resetBoxes from "../assets/resetBoxes";
 import createBoard from "../assets/createBoard";
 import { useToggleTurn, useTurn } from "./TurnAndToggleProvider";
@@ -25,7 +25,6 @@ const initRecord = {
   O: 0,
   draw: 0,
 };
-const initBoard = createBoard();
 
 const WinnerContext = createContext<WinnerContextType>([
   [],
@@ -43,42 +42,53 @@ export default function WinnerProvider(props: { children: React.ReactNode }) {
   const [board, setBoard] = useState<Board>(createBoard());
   const [winner, setWinner] = useState<WinnerAttributes>(initWinnerAttributes);
   const [record, setRecord] = useState(initRecord);
+  const combinations = useRef();
+
+  useEffect(
+    () => (combinations.current = createWinningCombinationAndWinnerChecker()),
+    []
+  );
+
   useEffect(() => {
-    const gotWinner = checkWinner(board);
+    if (!combinations.current) return;
+    const gotWinner = combinations.current(board);
     if (gotWinner) {
       setWinner({
         isAnnounced: true,
         winner: gotWinner,
       });
-      setRecord((prevRecord) => ({
-        ...prevRecord,
-        [gotWinner]: prevRecord[gotWinner] + 1,
-      }));
     }
   }, [board]);
+
+  useEffect(() => {
+    setRecord((prevRecord) => ({
+      ...prevRecord,
+      [winner.winner as any]: prevRecord[winner.winner as any] + 1,
+    }));
+  }, [winner]);
+
   const turn = useTurn();
   const toggleturn = useToggleTurn();
 
   useEffect(() => {
     const { type } = readURL();
-    if (turn.title == "Computer") {
-      let [x, y] = autoMove();
-      const reserveCountIfAdvance = parseInt(
-        document.getElementById(`${x},${y}`)?.dataset.reserveCount || "0"
-      );
+    if (winner.isAnnounced || turn.title != "Computer") return;
+    let [x, y] = autoMove();
+    const reserveCountIfAdvance = parseInt(
+      document.getElementById(`${x},${y}`)?.dataset.reserveCount || "0"
+    );
+    if (!(type == "advance" && reserveCountIfAdvance < 3))
+      while (board[x][y] != null) [x, y] = autoMove();
 
-      console.log(type, reserveCountIfAdvance);
-      if (!(type == "advance" && reserveCountIfAdvance < 3))
-        while (board[x][y] != null) [x, y] = autoMove();
+    const timmerId = setTimeout(() => {
+      const target = document.getElementById(`${x},${y}`);
+      handleBoardChange([x, y].toString(), turn.sign);
+      toggleturn();
+      updateUIforCurrentMove(target);
+    }, 1000);
 
-      setTimeout(() => {
-        const target = document.getElementById(`${x},${y}`);
-        handleBoardChange([x, y].toString(), turn.sign);
-        toggleturn();
-        updateUIforCurrentMove(target);
-      }, 1000);
-    }
-  }, [board]);
+    return () => clearTimeout(timmerId);
+  }, [board, winner]);
 
   function handleBoardChange(cords: string, sign: Sign) {
     const [x, y] = cords.split(",");
@@ -95,7 +105,7 @@ export default function WinnerProvider(props: { children: React.ReactNode }) {
 
   function reset() {
     setWinner(initWinnerAttributes);
-    setBoard(initBoard);
+    setBoard(createBoard());
     resetBoxes();
   }
 
