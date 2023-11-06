@@ -8,6 +8,7 @@ import Shop from "./components/Shop";
 import { useRoutes } from "react-router-dom";
 export default function TicTacToeRoutes() {
   return useRoutes([
+    { path: "*", element: <h1>Page not found🤔</h1> },
     {
       path: "/",
       children: [

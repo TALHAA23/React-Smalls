@@ -28,8 +28,12 @@ export default function PlayBoard() {
           turn.title == "Computer" && "opacity-50 pointer-events-none"
         }`}
       >
-        <h1>
-          {turn.title}:{turn.sign}
+        <h1
+          className={`my-6 py-2 w-auto border text-center rounded-md  text-black/80 ${
+            turn.sign == "X" ? "bg-red-400/50" : "bg-blue-500/60"
+          } `}
+        >
+          {turn.title}
         </h1>
         <div
           className={`w-full h-full p-1 grid gap-1 ${useBoardTheme()}`}

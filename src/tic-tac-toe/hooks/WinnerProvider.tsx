@@ -42,12 +42,11 @@ export default function WinnerProvider(props: { children: React.ReactNode }) {
   const [board, setBoard] = useState<Board>(createBoard());
   const [winner, setWinner] = useState<WinnerAttributes>(initWinnerAttributes);
   const [record, setRecord] = useState(initRecord);
-  const combinations = useRef();
+  const combinations = useRef<undefined | ((board: Board) => Sign | "draw")>();
 
-  useEffect(
-    () => (combinations.current = createWinningCombinationAndWinnerChecker()),
-    []
-  );
+  useEffect(() => {
+    combinations.current = createWinningCombinationAndWinnerChecker();
+  }, []);
 
   useEffect(() => {
     if (!combinations.current) return;
@@ -61,9 +60,10 @@ export default function WinnerProvider(props: { children: React.ReactNode }) {
   }, [board]);
 
   useEffect(() => {
+    if (!winner.winner) return;
     setRecord((prevRecord) => ({
       ...prevRecord,
-      [winner.winner as any]: prevRecord[winner.winner as any] + 1,
+      [winner.winner as string]: prevRecord[winner.winner as string] + 1,
     }));
   }, [winner]);
 

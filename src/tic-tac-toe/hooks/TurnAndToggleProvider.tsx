@@ -20,7 +20,6 @@ export const PLAYER2: PlayerAttributes = {
   title: readURL().mode == "2p" ? "Player 02" : "Computer",
   sign: PLAYER_2_SIGN,
 };
-
 type TurnAndToogle = [turn: PlayerAttributes, toggle: () => void];
 
 const TurnAndToggleContext = createContext<TurnAndToogle>([
@@ -30,9 +29,13 @@ const TurnAndToggleContext = createContext<TurnAndToogle>([
 export const useTurn = () => useContext(TurnAndToggleContext)[0];
 export const useToggleTurn = () => useContext(TurnAndToggleContext)[1];
 export default function TurnAndToggleProvier(props: Children) {
-  const [p, setp] = useSearchParams();
-  useEffect(() => (PLAYER2.title = "Player 01"), [p]);
+  const [searchParam, setSearchParam] = useSearchParams();
   const [turn, setTurn] = useState(PLAYER1);
+
+  useEffect(() => {
+    PLAYER2.title = readURL().mode == "2p" ? "Player 02" : "Computer";
+  }, [searchParam]);
+
   const toggleTurn = () =>
     setTurn((prevTurn) => ({
       title: prevTurn.title == PLAYER1.title ? PLAYER2.title : PLAYER1.title,

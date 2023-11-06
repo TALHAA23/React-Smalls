@@ -1,7 +1,9 @@
 import ReactConfetti from "react-confetti";
 import { useRecord, useReset, useWinner } from "../hooks/WinnerProvider";
 import { PLAYER1, PLAYER2 } from "../hooks/TurnAndToggleProvider";
+import { useNavigate } from "react-router-dom";
 export default function Result() {
+  const navigate = useNavigate();
   const { winner } = useWinner();
   const reset = useReset();
   const record = Object.entries(useRecord());
@@ -29,7 +31,7 @@ export default function Result() {
         {["Play Again", "New Game"].map((btn) => (
           <button
             onClick={() => {
-              btn == "New Game" ? history.back() : reset();
+              btn == "New Game" ? navigate(`..${location.search}`) : reset();
             }}
             className={`mx-auto my-2 block w-full max-w-[400px] text-center border-red-300 border-2 py-3 rounded ${
               btn == "New Game" ? "hover:bg-blue-500" : "hover:bg-red-400"
