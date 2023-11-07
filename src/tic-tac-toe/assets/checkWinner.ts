@@ -4,11 +4,11 @@ import { Board, Sign } from "./type";
 const createWinningCombinationAndWinnerChecker = function () {
   const { grid } = readURL();
   const WINNING_COMBINATIONS: number[][][] = [];
-  const mainDiagonal = [];
-  const secoundaryDiagonal = [];
+  const mainDiagonal: number[][] = [];
+  const secoundaryDiagonal: number[][] = [];
   for (let i = 0; i < grid; i++) {
-    const row = [];
-    const col = [];
+    const row: number[][] = [];
+    const col: number[][] = [];
     for (let j = 0; j < grid; j++) {
       col.push([j, i]);
       row.push([i, j]);
@@ -35,5 +35,3 @@ const createWinningCombinationAndWinnerChecker = function () {
   };
 };
 export default createWinningCombinationAndWinnerChecker;
-// const checkWinner = createWinningCombinationAndWinnerChecker();
-// export default checkWinner;

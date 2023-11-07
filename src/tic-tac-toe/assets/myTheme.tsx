@@ -9,7 +9,7 @@ export default function myTheme(): Theme | false {
 
   const myTheme = JSON.parse(getTheme);
   if (!("board" in myTheme && "marker" in myTheme)) return false;
-  let newElement = [];
+  let newElement: ReactElement[] = [];
   for (let mark of myTheme.marker)
     newElement.push(createElementFromObject(mark));
   return { board: myTheme.board, marker: newElement };

@@ -14,7 +14,7 @@ type Key = Catagory;
 type Value = string | ReactElement[];
 
 interface Theme {
-  themeChanger: (key: Key, value: Value) => void;
+  themeChanger?: (key: Key, value: Value) => void;
   board: string;
   marker: ReactElement[];
 }
